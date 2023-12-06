@@ -83,20 +83,5 @@ class Radio(commands.Cog):
                     await bot_speaker.edit(suppress=False)
                     await asyncio.sleep(7200)
 
-    async def check_voice_channel(self, inter: disnake.Integration, theme_music, theme_name):
-        voice_channel = self.bot.get_channel()
-        try:
-            if voice_channel is not None:
-                player = voice_channel.guild.voice_client
-                if player is not None:
-                    player.stop()
-
-                await self.bot.change_presence(status=disnake.Status.online, activity=disnake.Game(name=theme_name))
-                player.play(FFmpegPCMAudio(theme_music))
-            else:
-                await inter.response.send_message("Вы не находитесь в голосовом канале.")
-        except Exception as e:
-            print(f'Произошла ошибка при воспроизведении музыки: {e}')
-
 def setup(bot):
     bot.add_cog(Radio(bot, conn))
